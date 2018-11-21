@@ -1,0 +1,58 @@
+
+<!-- api key: Zizr4EiiFO9xgdxftiHGyTrchOh9AU4K -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="buttons-view"></div>
+    <form id="gif-form">
+        <label for="gif-input">Search for your favorite shows!</label>
+        <input type="text" id="gif-input"><br>
+
+        <input id="add-gif" type="submit" value="Search for your favorite shows!">
+    </form>
+
+    <div id="gif-view"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var gifs = ["Riverdale", "American Horror Story", "Orange is the New Black", "Modern Family", "Superstore"];
+        function displayGifs() {
+            var gif= $(this).attr("data-name");
+            var APIkey = "Zizr4EiiFO9xgdxftiHGyTrchOh9AU4K";
+            var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=" + APIkey + "&limit=5";
+            $.ajax({ url: queryURL, 
+            method: "GET" 
+            }).done(function (response) {
+                });
+        }
+        function renderButtons() {
+            $("#buttons-view").empty();
+            for (var i=0; i < gifs.length; i++) {
+                var a = $("<button>");
+                a.addClass("gif");
+                a.attr("data-name", gifs[i]);
+                a.text(gifs[i]);
+                $("#buttons-view").append(a);
+            }
+        }
+        $("#add-gif").on("click", function(event) {
+            event.preventDefault();
+            var gif = $("#gif-input").val().trim();
+            gifs.push(gif);
+            
+            renderButtons();
+        });
+        $(document).on("click", ".gif", displayGifs);
+        renderButtons();
+    </script>
+</body>
+
+</html>
